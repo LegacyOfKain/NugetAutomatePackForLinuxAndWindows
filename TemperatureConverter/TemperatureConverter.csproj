@@ -6,13 +6,13 @@
     <Nullable>enable</Nullable>
     <PackageId>ExampleTemperatureConverter</PackageId>
     <Version>1.0.0</Version>
-    <Authors>Your Name</Authors>
-    <Company>Your Company</Company>
+    <Authors>Priyanku_Biswas</Authors>
+    <Company>Priyanku_Biswas</Company>
     <Description>A simple library to convert temperatures between Celsius and Fahrenheit</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/yourusername/TemperatureConverter</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/yourusername/TemperatureConverter</RepositoryUrl>
-    <PackageTags>temperature converter celsius fahrenheit</PackageTags>
+    <PackageProjectUrl>https://github.com/LegacyOfKain/NugetAutomatePackForLinuxAndWindows</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LegacyOfKain/NugetAutomatePackForLinuxAndWindows</RepositoryUrl>
+    <PackageTags>Temperature converter celsius fahrenheit</PackageTags>
   </PropertyGroup>
 
 </Project>
