@@ -32,7 +32,7 @@ get_latest_version() {
   echo "API Response: $RESPONSE"
 
   # Parse the JSON to extract the latest listed version
-  LATEST_VERSION=$(echo "$RESPONSE" | jq -r '.items[0].upper' 2>/dev/null)
+  LATEST_VERSION=$(echo "$RESPONSE" | jq -r '.items[0].items[-1].catalogEntry.version' 2>/dev/null)
 
   if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" == "null" ]; then
     echo "No version found. Defaulting to 1.0.0"
@@ -42,7 +42,6 @@ get_latest_version() {
   fi
 
   echo "$LATEST_VERSION"
-}
 
 # Check if a package ID was provided
 if [ $# -eq 0 ]; then
