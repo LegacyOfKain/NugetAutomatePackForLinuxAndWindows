@@ -12,7 +12,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/LegacyOfKain/NugetAutomatePackForLinuxAndWindows</PackageProjectUrl>
     <RepositoryUrl>https://github.com/LegacyOfKain/NugetAutomatePackForLinuxAndWindows</RepositoryUrl>
-    <PackageTags>Temperature converter celsius fahrenheit</PackageTags>
+    <PackageTags>Temperature Converter celsius fahrenheit</PackageTags>
   </PropertyGroup>
 
 </Project>
