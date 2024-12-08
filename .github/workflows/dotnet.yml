@@ -1,7 +1,7 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET package automated build, test and push to NuGet
+name: .NET package automated build , test and push to Nuget
 
 on:
   push:
@@ -11,52 +11,54 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+  
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
 
-      - name: Get version
-        id: get_version
-        run: |
-          VERSION=$(grep -oP '(?<=<Version>).*(?=</Version>)' TemperatureConverter/TemperatureConverter.csproj)
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+    - name: Build
+      run: dotnet build --no-restore
 
-      - name: Increment version
-        run: |
-          VERSION=${{ steps.get_version.outputs.VERSION }}
-          IFS='.' read -ra ADDR <<< "$VERSION"
-          ADDR[2]=$((ADDR[2] + 1))
-          NEW_VERSION="${ADDR[0]}.${ADDR[1]}.${ADDR[2]}"
-          sed -i "s|<Version>.*</Version>|<Version>$NEW_VERSION</Version>|" TemperatureConverter/TemperatureConverter.csproj
-          sed -i "s|<AssemblyVersion>.*</AssemblyVersion>|<AssemblyVersion>$NEW_VERSION.0</AssemblyVersion>|" TemperatureConverter/TemperatureConverter.csproj
-          sed -i "s|<FileVersion>.*</FileVersion>|<FileVersion>$NEW_VERSION.0</FileVersion>|" TemperatureConverter/TemperatureConverter.csproj
-          sed -i "s|<InformationalVersion>.*</InformationalVersion>|<InformationalVersion>$NEW_VERSION.0</InformationalVersion>|" TemperatureConverter/TemperatureConverter.csproj
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      
+    - name: Get current date
+      id: date
+      run: echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
+    
+    - name: Get commit count
+      id: commit-count
+      run: echo "count=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
+    
+    - name: Get short commit hash
+      id: commit-hash
+      run: echo "hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Restore dependencies
-        run: dotnet restore
+    - name: Install Dependencies on Alpine 
+      run: | 
+        sudo apk add --no-cache curl jq 
+    
+    - name: Run Bash Script to Get Latest NuGet Package Version 
+      run: | 
+        chmod +x ./get_latest_version.sh
+        LATEST_VERSION=$(./get_latest_version.sh) 
+        echo "Latest version: $LATEST_VERSION" 
+    
+    # Use $LATEST_VERSION in subsequent steps as needed
+    
+    - name: Pack
+      run: dotnet pack TemperatureConverter/TemperatureConverter.csproj --output nuget-packages --configuration Release -p:PackageVersion=${{ $LATEST_VERSION }}
+    
+    - name: Publish
+      run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
 
-      - name: Build
-        run: dotnet build --no-restore
-
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
-
-      - name: Pack
-        run: dotnet pack TemperatureConverter/TemperatureConverter.csproj --output nuget-packages --configuration Release
-
-      - name: Publish
-        run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
-
-      - name: Commit version increment
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add TemperatureConverter/TemperatureConverter.csproj
-          git commit -m "Increment version [skip ci]"
-          git push
+    
