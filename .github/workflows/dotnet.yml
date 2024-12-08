@@ -43,7 +43,7 @@ jobs:
         run: echo "hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Run Bash Script to Get Latest NuGet Package Version
-        id: get_version
+        id: get_version_run
         run: |
           chmod +x ./get_latest_version.sh
           echo "Running get_latest_version.sh..."
