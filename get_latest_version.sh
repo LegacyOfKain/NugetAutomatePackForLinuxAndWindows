@@ -14,9 +14,3 @@ get_latest_version() {
   echo $LATEST_VERSION
 }
 
-# Usage: Pass the package ID as an argument to the function
-PACKAGE_ID="Newtonsoft.Json"
-LATEST_VERSION=$(get_latest_version $PACKAGE_ID)
-
-echo "Latest version of $PACKAGE_ID is $LATEST_VERSION"
-

@@ -46,7 +46,7 @@ jobs:
         id: get_version
         run: |
           chmod +x ./get_latest_version.sh
-          LATEST_VERSION=$(./get_latest_version.sh) 
+          LATEST_VERSION=$(./get_latest_version.sh "exampletemperatureconverter") 
           echo "latest_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
           echo "Latest version: $LATEST_VERSION" 
 
