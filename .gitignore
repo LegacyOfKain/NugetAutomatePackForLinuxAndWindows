@@ -146,6 +146,7 @@ _TeamCity*
 coverage*.json
 coverage*.xml
 coverage*.info
+Coverage/
 
 # Visual Studio code coverage results
 *.coverage
@@ -361,3 +362,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Idea
+.idea/
