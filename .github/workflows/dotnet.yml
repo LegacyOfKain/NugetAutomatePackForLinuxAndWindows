@@ -46,6 +46,27 @@ jobs:
         id: get_version
         run: |
           chmod +x ./get_latest_version.sh
+          echo "Running get_latest_version.sh..."
+          SCRIPT_OUTPUT=$(./get_latest_version.sh "exampletemperatureconverter" 2>&1)
+          EXIT_CODE=$?
+          echo "Script output: $SCRIPT_OUTPUT"
+          echo "Script exit code: $EXIT_CODE"
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "Error: Script failed with exit code $EXIT_CODE" >&2
+            exit $EXIT_CODE
+          fi
+          LATEST_VERSION=$(echo "$SCRIPT_OUTPUT" | tail -n 1)
+          if [ -z "$LATEST_VERSION" ]; then
+            echo "Error: Failed to extract version from script output" >&2
+            exit 1
+          fi
+          echo "latest_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+          echo "Latest version: $LATEST_VERSION"
+
+      - name: Run Bash Script to Get Latest NuGet Package Version
+        id: get_version
+        run: |
+          chmod +x ./get_latest_version.sh
           LATEST_VERSION=$(./get_latest_version.sh "exampletemperatureconverter") 
           echo "latest_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
           echo "Latest version: $LATEST_VERSION" 
