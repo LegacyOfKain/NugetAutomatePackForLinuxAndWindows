@@ -26,3 +26,17 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
+    - name: Get current date
+      id: date
+      run: echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
+    
+    - name: Get commit count
+      id: commit-count
+      run: echo "count=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
+    
+    - name: Pack
+      run: dotnet pack TemperatureConverter/TemperatureConverter.csproj --output nuget-packages --configuration Release -p:PackageVersion=${{ steps.date.outputs.date }}.${{ steps.commit-count.outputs.count }}
+    
+    - name: Publish
+      run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
