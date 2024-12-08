@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>ExampleTemperatureConverter</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Your Name</Authors>
+    <Company>Your Company</Company>
+    <Description>A simple library to convert temperatures between Celsius and Fahrenheit</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/yourusername/TemperatureConverter</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yourusername/TemperatureConverter</RepositoryUrl>
+    <PackageTags>temperature converter celsius fahrenheit</PackageTags>
+  </PropertyGroup>
+
+</Project>

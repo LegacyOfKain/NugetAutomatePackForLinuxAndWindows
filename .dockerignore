@@ -1,0 +1,8 @@
+**/bin/
+**/obj/
+**/nupkg/
+**/.idea/
+**/.vs/
+Dockerfile.usage
+Dockerfile
+*.md

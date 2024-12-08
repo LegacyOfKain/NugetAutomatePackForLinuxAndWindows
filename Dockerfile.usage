@@ -1,0 +1,17 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine
+
+WORKDIR /app
+
+# Create a new console project
+RUN dotnet new console -n TestApp
+
+WORKDIR /app/TestApp
+
+# Add the NuGet package
+RUN dotnet add package ExampleTemperatureConverter
+
+# Copy a test program
+COPY test-program.cs ./Program.cs
+
+# Run the program
+CMD ["dotnet", "run"]
