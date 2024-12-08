@@ -1,4 +1,6 @@
-## Instructions to test package directly and with nuget on linux
+## Instructions to test package directly and with nuget on linux based docker
+(This is not required by Github Actions)
+
 ```shell
 cd NugetAutomatePackForLinuxAndWindows
 docker build -t temperature-converter-test .
