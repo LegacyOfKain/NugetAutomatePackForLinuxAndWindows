@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <PackageId>ExampleTemperatureConverter</PackageId>
     <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <InformationalVersion>1.0.0.0</InformationalVersion>
     <Authors>Priyanku_Biswas</Authors>
     <Company>Priyanku_Biswas</Company>
     <Description>A simple library to convert temperatures between Celsius and Fahrenheit</Description>
