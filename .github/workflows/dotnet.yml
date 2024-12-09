@@ -35,6 +35,14 @@ jobs:
           sed -i 's|<AssemblyVersion>.*</AssemblyVersion>|<AssemblyVersion>${{ steps.set_version.outputs.version }}</AssemblyVersion>|g' TemperatureConverter/TemperatureConverter.csproj
           sed -i 's|<FileVersion>.*</FileVersion>|<FileVersion>${{ steps.set_version.outputs.version }}</FileVersion>|g' TemperatureConverter/TemperatureConverter.csproj
 
+      - name: Commit updated csproj file
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add TemperatureConverter/TemperatureConverter.csproj
+          git commit -m "Update version to ${{ steps.set_version.outputs.version }} [skip ci]"
+          git push
+
       - name: Restore dependencies
         run: dotnet restore
 
