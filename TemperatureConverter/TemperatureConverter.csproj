@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>ExampleTemperatureConverter</PackageId>
-    <Version>2024.12.09.18</Version>
+    <Version>2024.12.09.19</Version>
     <Authors>Priyanku_Biswas</Authors>
     <Company>Priyanku_Biswas</Company>
     <Description>A simple library to convert temperatures between Celsius and Fahrenheit</Description>
