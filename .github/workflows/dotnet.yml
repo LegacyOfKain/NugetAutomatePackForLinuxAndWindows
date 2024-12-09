@@ -8,7 +8,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-    
+
+# permission needed to write back version to csproj file    
 permissions:
   contents: write
 
@@ -20,6 +21,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # token needed to write back version to csproj file 
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup .NET
