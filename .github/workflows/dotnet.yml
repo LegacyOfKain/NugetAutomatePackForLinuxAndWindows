@@ -34,45 +34,12 @@ jobs:
         id: date
         run: echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
 
-      - name: Get commit count
-        id: commit-count
-        run: echo "count=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Get short commit hash
-        id: commit-hash
-        run: echo "hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Run Bash Script to Get Latest NuGet Package Version
-        id: get_version_run
-        run: |
-          chmod +x ./get_latest_version.sh
-          echo "Running get_latest_version.sh..."
-          SCRIPT_OUTPUT=$(./get_latest_version.sh "exampletemperatureconverter" 2>&1)
-          EXIT_CODE=$?
-          echo "Script output: $SCRIPT_OUTPUT"
-          echo "Script exit code: $EXIT_CODE"
-          if [ $EXIT_CODE -ne 0 ]; then
-            echo "Error: Script failed with exit code $EXIT_CODE" >&2
-            exit $EXIT_CODE
-          fi
-          LATEST_VERSION=$(echo "$SCRIPT_OUTPUT" | tail -n 1)
-          if [ -z "$LATEST_VERSION" ]; then
-            echo "Error: Failed to extract version from script output" >&2
-            exit 1
-          fi
-          echo "latest_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
-          echo "Latest version: $LATEST_VERSION"
-
-      - name: Run Bash Script to Get Latest NuGet Package Version
-        id: get_version
-        run: |
-          chmod +x ./get_latest_version.sh
-          LATEST_VERSION=$(./get_latest_version.sh "exampletemperatureconverter") 
-          echo "latest_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
-          echo "Latest version: $LATEST_VERSION" 
+      - name: Set version
+        id: set_version
+        run: echo "version=${{ steps.date.outputs.date }}.${{ github.run_number }}" >> $GITHUB_OUTPUT
 
       - name: Pack
-        run: dotnet pack TemperatureConverter/TemperatureConverter.csproj --output nuget-packages --configuration Release -p:PackageVersion=${{ steps.get_version.outputs.latest_version }}
-
+        run: dotnet pack TemperatureConverter/TemperatureConverter.csproj --output nuget-packages --configuration Release -p:PackageVersion=${{ steps.set_version.outputs.version }}
+        
       - name: Publish
         run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
